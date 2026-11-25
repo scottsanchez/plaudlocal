@@ -244,8 +244,14 @@ NAMES_REQUEST = (
     "Suggest a real name for each speaker only where the conversation supports it: an introduction, "
     "or being addressed by name and answering. Reply with JSON only, keyed S1, S2, ...: "
     '{"S1": {"name": "...", "confidence": 0.0-1.0, "evidence": "a short quote or reason"}}. '
-    "Use null for the name when unsure."
+    "Use null for the name when unsure. Sometimes one label is really two or more people: the same "
+    "label says \"I'm A\" in one place and \"I'm B\" in another. Use null for such a label. "
+    "Mentioning or introducing someone else (\"this is B\") doesn't count."
 )
+# The last three sentences are there because the transcriber can merge similar voices into one
+# label. Without them, Qwen3.8-27B named such labels after one of the people at full confidence
+# (NVIDIA's 8-voice demo and an AMI meeting); with them it left them blank, kept the other names,
+# and still named both people when one introduces the other.
 MIN_CONFIDENCE = 0.5
 _NAMES_TIMEOUT = 300  # seconds; names are a nicety, so a slow model is cut off rather than holding the job
 

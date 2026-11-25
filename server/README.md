@@ -85,8 +85,16 @@ once per job, before the summary, to suggest a name for each speaker where the c
 supports it, with a confidence and a short piece of evidence. Suggestions of at least 0.5 are
 stored on the document's speakers as `suggestion`. They're never written into the transcript text,
 and names the user has confirmed are never replaced. The summary prompt gets one line listing confirmed
-names, and the suggestions marked unconfirmed. If the call fails, the job just continues without names. Switch it off
-with **Suggest speaker names** under Summarization.
+names, and the suggestions marked unconfirmed. If the call fails, the job just continues without
+names (the server log says why). Switch it off with **Suggest speaker names** under Summarization.
+
+- **They're suggestions, not answers.** The transcriber can put two similar voices under one
+  speaker label. The model is told to leave such a label unnamed, but the user has the final say.
+- **Reasoning models:** the name call gets at most 5 minutes (less if **Timeout per call** is lower). With "thinking" on, a model can
+  take longer than that on a long meeting, and the names are skipped. Thinking also makes
+  summaries much slower. Turn it off in your model server if you can. In one test with
+  Qwen3.8-27B, a 21-minute meeting's name call took 7 seconds with thinking off, and timed out
+  with it on.
 
 ## HTTPS
 
